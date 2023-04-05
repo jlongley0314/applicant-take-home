@@ -1,6 +1,11 @@
 import React, { useMemo } from 'react';
 import Classnames from 'classnames';
-import { PrizeoutOffer, PrizeoutOfferSettings, selectSelectedOffer, setSelectedOffer } from '../../../../../slices/offers-slice';
+import {
+    PrizeoutOffer,
+    PrizeoutOfferSettings,
+    selectSelectedOffer,
+    setSelectedOffer,
+} from '../../../../../slices/offers-slice';
 import { OfferGiftCard } from '../offer-gift-card/offer-gift-card';
 import { useAppSelector } from '../../../../../hooks';
 import { selectIsCheckoutPanelCollapsed } from '../../../../../slices/common-slice';
@@ -17,22 +22,12 @@ interface OfferView {
 
 const VerticalOffers: React.FC<OfferView> = ({ offers, viewSettings }): React.ReactElement => {
     const isCheckoutPanelCollapsedView = useAppSelector(selectIsCheckoutPanelCollapsed);
-    const selectedOffer = useAppSelector(selectSelectedOffer);
     const heading = viewSettings.title || 'Recommended for you';
     const classes: string = Classnames('vertical-offers');
     const dispatch = useDispatch<AppDispatch>();
 
-    const activeOfferId: string | undefined = useMemo(() => {
-        if (selectedOffer) {
-            const activeOffer = offers.find((offer) => offer.giftcard_list[0].checkout_value_id === selectedOffer.giftcard_list[0].checkout_value_id)
-            if (activeOffer) {
-                return activeOffer.giftcard_list[0].checkout_value_id;
-            }
-        }
-    }, [selectedOffer, offers])
-
     const offerClickHandler = (offer: PrizeoutOffer) => {
-        dispatch(setSelectedOffer)
+        dispatch(setSelectedOffer(offer));
         if (isCheckoutPanelCollapsedView) {
             dispatch(toggleIsCollapsedCheckoutPanelOpen());
         }
@@ -44,7 +39,6 @@ const VerticalOffers: React.FC<OfferView> = ({ offers, viewSettings }): React.Re
                 key={`${heading}-${offer.name}`}
                 offer={offer}
                 onClickHandler={() => offerClickHandler(offer)}
-                activeOfferId={activeOfferId}
             />
         ));
     };

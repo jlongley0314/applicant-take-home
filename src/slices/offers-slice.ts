@@ -706,7 +706,11 @@ export const offersSlice = createSlice({
     name: 'offers',
     reducers: {
         setSelectedOffer(state, action: PayloadAction<PrizeoutOffer>) {
-            state.selectedOffer = action.payload;
+            state.selectedOffer =
+                action.payload.giftcard_list[0].checkout_value_id ===
+                state.selectedOffer?.giftcard_list[0].checkout_value_id
+                    ? undefined
+                    : action.payload;
         },
     },
 });

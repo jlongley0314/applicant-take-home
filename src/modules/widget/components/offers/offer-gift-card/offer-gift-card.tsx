@@ -9,13 +9,17 @@ import { useAppSelector } from '../../../../../hooks';
 interface OfferGiftCardProps {
     offer: PrizeoutOffer;
     onClickHandler: () => void;
-    activeOfferId: string;
 }
 
-export const OfferGiftCard: React.FC<OfferGiftCardProps> = ({ offer, onClickHandler, activeOfferId }): React.ReactElement => {
+export const OfferGiftCard: React.FC<OfferGiftCardProps> = ({ offer, onClickHandler }): React.ReactElement => {
+    const selectedOffer = useAppSelector(selectSelectedOffer);
     const firstGiftCard = offer.giftcard_list[0];
     const offerType = firstGiftCard.display_monetary_bonus ? 'monetary' : 'percentage';
     const offerValue = firstGiftCard.display_bonus;
+    const activeOfferId: string | undefined = useMemo(
+        () => selectedOffer?.giftcard_list[0].checkout_value_id,
+        [selectedOffer],
+    );
     const classes: string = Classnames('offer-gift-card', {
         'offer-gift-card--selected': activeOfferId === firstGiftCard.checkout_value_id,
     });
