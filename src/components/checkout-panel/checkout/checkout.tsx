@@ -2,11 +2,11 @@ import React from 'react';
 import { useAppSelector } from '../../../hooks';
 import { selectSelectedOffer } from '../../../slices/offers-slice';
 import { GiftCard } from '../../common';
+import { ValueOptionsContainer } from './value-options-container';
 import checkoutPanelViewWrapper from '../view-wrapper';
 import CheckoutButton from './checkout-button';
 
 import './checkout.less';
-import { CostOptionsContainer } from './cost-options-container';
 
 const CheckoutPanelView: React.FC = (): React.ReactElement => {
     const selectedOffer = useAppSelector(selectSelectedOffer);
@@ -22,7 +22,7 @@ const CheckoutPanelView: React.FC = (): React.ReactElement => {
                                     imgUrl={selectedOffer.image_url}
                                     altText={selectedOffer.name}
                                 />
-                                <CostOptionsContainer costOptions={selectedOffer.giftcard_list} />
+                                <ValueOptionsContainer valueOptions={selectedOffer.giftcard_list} currencyCode={selectedOffer.currency_code} />
                             </>
                         )}
                     </section>
