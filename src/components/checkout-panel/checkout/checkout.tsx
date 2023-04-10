@@ -22,7 +22,10 @@ const CheckoutPanelView: React.FC = (): React.ReactElement => {
                                     imgUrl={selectedOffer.image_url}
                                     altText={selectedOffer.name}
                                 />
-                                <ValueOptionsContainer valueOptions={selectedOffer.giftcard_list} currencyCode={selectedOffer.currency_code} />
+                                <ValueOptionsContainer
+                                    valueOptions={selectedOffer.giftcard_list}
+                                    currencyCode={selectedOffer.currency_code}
+                                />
                             </>
                         )}
                     </section>

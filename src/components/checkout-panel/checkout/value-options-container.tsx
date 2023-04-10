@@ -1,7 +1,7 @@
 import React from 'react';
 import { PrizeoutOfferValueOptions } from '../../../slices/offers-slice';
 import { Button } from '../../common';
-import "./value-options-container.less";
+import './value-options-container.less';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
 import { selectSelectedValueOption, setSelectedValueOption } from '../../../slices/checkout-slice';
@@ -13,11 +13,14 @@ interface ValueOptionsContainerProps {
     valueOptions: PrizeoutOfferValueOptions[];
 }
 
-export const ValueOptionsContainer: React.FC<ValueOptionsContainerProps> = ({ valueOptions, currencyCode }): React.ReactElement => {
+export const ValueOptionsContainer: React.FC<ValueOptionsContainerProps> = ({
+    valueOptions,
+    currencyCode,
+}): React.ReactElement => {
     const selectedValueOption = useAppSelector(selectSelectedValueOption);
     const dispatch = useDispatch<AppDispatch>();
 
-    const isCurrentlySelected = (option: PrizeoutOfferValueOptions) => 
+    const isCurrentlySelected = (option: PrizeoutOfferValueOptions) =>
         selectedValueOption?.checkout_value_id === option.checkout_value_id;
 
     const valueOptionClickHandler = (option: PrizeoutOfferValueOptions) => {
@@ -25,13 +28,13 @@ export const ValueOptionsContainer: React.FC<ValueOptionsContainerProps> = ({ va
     };
 
     return (
-        <div className='value-options-container'>
+        <div className="value-options-container">
             {valueOptions.map((option) => (
                 <Button
                     key={option.checkout_value_id}
                     ariaLabel={option.checkout_value_id}
                     onClick={() => valueOptionClickHandler(option)}
-                    color={isCurrentlySelected(option) ? "primary" : undefined}
+                    color={isCurrentlySelected(option) ? 'primary' : undefined}
                     size="small"
                     text={`${convertCentsToDollar(option.cost_in_cents, currencyCode)}`}
                 />

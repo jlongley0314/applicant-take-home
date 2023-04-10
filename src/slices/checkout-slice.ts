@@ -14,8 +14,8 @@ export type ViewEnum = 'checkout' | 'checkout-confirmation';
 export const checkoutInitialState: CheckoutSlice = {
     isCollapsedCheckoutPanelOpen: false,
     loading: false,
-    view: 'checkout',
     selectedValueOption: undefined,
+    view: 'checkout',
 };
 
 export const checkoutSlice = createSlice({
@@ -37,7 +37,8 @@ export const checkoutSlice = createSlice({
     },
 });
 
-export const { setCheckoutView, setSelectedValueOption, toggleIsCollapsedCheckoutPanelOpen, toggleIsLoading } = checkoutSlice.actions;
+export const { setCheckoutView, setSelectedValueOption, toggleIsCollapsedCheckoutPanelOpen, toggleIsLoading } =
+    checkoutSlice.actions;
 
 export const selectLoading = ({ checkout: { loading } }: RootState): boolean => loading;
 
@@ -47,6 +48,8 @@ export const selectIsCollapsedCheckoutPanelOpen = ({
     checkout: { isCollapsedCheckoutPanelOpen },
 }: RootState): boolean => isCollapsedCheckoutPanelOpen;
 
-export const selectSelectedValueOption = ({ checkout: {selectedValueOption} }: RootState): PrizeoutOfferValueOptions => selectedValueOption;
+export const selectSelectedValueOption = ({
+    checkout: { selectedValueOption },
+}: RootState): PrizeoutOfferValueOptions => selectedValueOption;
 
 export default checkoutSlice.reducer;
