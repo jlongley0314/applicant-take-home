@@ -3,12 +3,12 @@ import { useAppSelector } from '../../../hooks';
 import { selectSelectedOffer } from '../../../slices/offers-slice';
 import { GiftCard } from '../../common';
 import { ValueOptionsContainer } from './value-options-container';
-import checkoutPanelViewWrapper from '../view-wrapper';
+import checkoutPanelViewWrapper, { SetViewProps } from '../view-wrapper';
 import CheckoutButton from './checkout-button';
 
 import './checkout.less';
 
-const CheckoutPanelView: React.FC = (): React.ReactElement => {
+const CheckoutPanelView: React.FC<SetViewProps> = ({ setView }): React.ReactElement => {
     const selectedOffer = useAppSelector(selectSelectedOffer);
     return (
         <section className="checkout">
@@ -32,7 +32,7 @@ const CheckoutPanelView: React.FC = (): React.ReactElement => {
                 </div>
                 <div className="grid__item">
                     <section className="checkout__calculation">
-                        <CheckoutButton />
+                        <CheckoutButton setView={setView} />
                     </section>
                 </div>
             </div>

@@ -705,9 +705,9 @@ export const offersSlice = createSlice({
     initialState: offersInitialState,
     name: 'offers',
     reducers: {
-        setSelectedOffer(state, action: PayloadAction<PrizeoutOffer>) {
+        setSelectedOffer(state, action: PayloadAction<PrizeoutOffer | undefined>) {
             state.selectedOffer =
-                action.payload.giftcard_list[0].checkout_value_id ===
+                action.payload?.giftcard_list?.[0].checkout_value_id ===
                 state.selectedOffer?.giftcard_list[0].checkout_value_id
                     ? undefined
                     : action.payload;

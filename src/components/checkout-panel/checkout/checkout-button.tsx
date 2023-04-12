@@ -1,30 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../../common';
 import { useAppSelector } from '../../../hooks';
-import { selectSelectedValueOption } from '../../../slices/checkout-slice';
-import { PrizeoutOfferValueOptions } from '../../../slices/offers-slice';
+import { ViewEnum, selectSelectedValueOption } from '../../../slices/checkout-slice';
+import { checkout } from '../../../utils/api/checkout';
 
-const CheckoutButton: React.FC = (): React.ReactElement => {
+type CheckoutButtonProps = {
+    setView: (view: ViewEnum) => void;
+};
+
+const CheckoutButton: React.FC<CheckoutButtonProps> = ({ setView }): React.ReactElement => {
     const selectedValueOption = useAppSelector(selectSelectedValueOption);
     const buttonText = 'Prizeout Gift Card';
-
-    const checkout = (data: PrizeoutOfferValueOptions) => {
-        return new Promise<{success: boolean}>((resolve, reject) => {
-            setTimeout(() => {
-                if (data) {
-                    resolve({success: true});
-                }
-            }, 500)
-        })
-    }
+    const [submitting, setSubmitting] = useState<boolean>(false);
 
     const buttonHandler = async () => {
-        // TODO: get the selected value options and send to mock api
-        // when the checkout api resolves, set the view as "checkout-confirmation"
-        // add a toggle
         if (selectedValueOption) {
-            const checkoutResponse = checkout(selectedValueOption)
-            console.log("checkout response", checkoutResponse);
+            setSubmitting(true);
+            const checkoutResponse = await checkout(selectedValueOption);
+            setSubmitting(false);
+            if (checkoutResponse.success && checkoutResponse.offerValueOption) {
+                setView('checkout-confirmation');
+            }
         }
     };
 
@@ -37,10 +33,13 @@ const CheckoutButton: React.FC = (): React.ReactElement => {
                 size="medium"
                 text={buttonText}
                 type="submit"
-                isDisabled={!selectedValueOption}
+                isDisabled={!selectedValueOption || submitting}
             />
         </>
     );
 };
 
 export default CheckoutButton;
+function dispatch(arg0: any) {
+    throw new Error('Function not implemented.');
+}

@@ -11,12 +11,14 @@ import { selectIsCollapsedCheckoutPanelOpen, toggleIsCollapsedCheckoutPanelOpen 
 import { Overlay } from '../common';
 
 import './checkout-panel.less';
+import { useResetCheckoutState } from '../../utils/hooks/useResetCheckoutState';
 
 export const CheckoutPanel: React.FC = (): React.ReactElement => {
     const isCollapsedCheckoutPanelOpen = useAppSelector(selectIsCollapsedCheckoutPanelOpen);
     const isCheckoutPanelCollapsedView = useAppSelector(selectIsCheckoutPanelCollapsed);
     const dispatch = useDispatch<AppDispatch>();
     const [transition, toggleTransition] = useTransition();
+    const { resetCheckoutState } = useResetCheckoutState();
 
     const classes: string = Classnames(
         `checkout-panel z-index-checkout-panel`,
@@ -27,6 +29,7 @@ export const CheckoutPanel: React.FC = (): React.ReactElement => {
 
     const closeCheckoutPanel = () => {
         if (isCollapsedCheckoutPanelOpen) {
+            resetCheckoutState();
             dispatch(toggleIsCollapsedCheckoutPanelOpen());
         }
     };
