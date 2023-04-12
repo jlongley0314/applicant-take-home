@@ -7,6 +7,7 @@ import { AppDispatch } from '../../../store';
 import { selectSelectedValueOption, setSelectedValueOption } from '../../../slices/checkout-slice';
 import { useAppSelector } from '../../../hooks';
 import { convertCentsToDollar } from '../../../utils/functions/convertCentsToDollars';
+import { SelectedValueOptionData } from './selected-value-option-data';
 
 interface ValueOptionsContainerProps {
     currencyCode?: string;
@@ -28,17 +29,20 @@ export const ValueOptionsContainer: React.FC<ValueOptionsContainerProps> = ({
     };
 
     return (
-        <div className="value-options-container">
-            {valueOptions.map((option) => (
-                <Button
-                    key={option.checkout_value_id}
-                    ariaLabel={option.checkout_value_id}
-                    onClick={() => valueOptionClickHandler(option)}
-                    color={isCurrentlySelected(option) ? 'primary' : undefined}
-                    size="small"
-                    text={`${convertCentsToDollar(option.cost_in_cents, currencyCode)}`}
-                />
-            ))}
-        </div>
+        <>
+            <div className="value-options-container">
+                {valueOptions.map((option) => (
+                    <Button
+                        key={option.checkout_value_id}
+                        ariaLabel={option.checkout_value_id}
+                        onClick={() => valueOptionClickHandler(option)}
+                        color={isCurrentlySelected(option) ? 'primary' : undefined}
+                        size="small"
+                        text={`${convertCentsToDollar(option.cost_in_cents, currencyCode)}`}
+                    />
+                ))}
+            </div>
+            {selectedValueOption && <SelectedValueOptionData valueOption={selectedValueOption} />}
+        </>
     );
 };
